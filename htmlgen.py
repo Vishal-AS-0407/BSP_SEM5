@@ -14,10 +14,9 @@ def read_file(filename):
 def setup_gemini():
     """Configure and get Gemini model."""
     try:
-        GOOGLE_API_KEY = "AIzaSyAjhjE1-c6vcFixyO6lOIHQUE8a15peRd0"
+        GOOGLE_API_KEY = "AIzaSyAjhjE1-c6vcFixyO6lOIHQUE8a15peRd0"  # Replace with actual API key
         genai.configure(api_key=GOOGLE_API_KEY)
         
-  
         generation_config = {
             "temperature": 0.7,
             "top_p": 0.8,
@@ -25,13 +24,10 @@ def setup_gemini():
             "max_output_tokens": 2048,
         }
         
-        # Initialize model
-        model = genai.GenerativeModel(
+        return genai.GenerativeModel(
             model_name="gemini-pro",
             generation_config=generation_config
         )
-        
-        return model
     except Exception as e:
         print(f"Error setting up Gemini: {str(e)}")
         return None
@@ -39,25 +35,47 @@ def setup_gemini():
 def generate_html_with_gemini(model, content):
     """Use Gemini to generate HTML from the content."""
     try:
-        prompt = f"""
-        Generate a visually appealing HTML page for the following content. 
-        Requirements:
-        - Use modern, clean design
-        - Include proper styling with CSS
-        - Use semantic HTML5 elements
-        - Include proper formatting and spacing
-        - Add visual hierarchy with typography
-        - Use a pleasant color scheme
-        - Include any relevant sections or divisions based on the content
+        prompt = """
+        Generate a complete HTML document for a mental health report with embedded CSS. Follow these specific instructions:
+
+        1. HTML Structure:
+        - Start with proper DOCTYPE and meta tags
+        - Use a simple color scheme: 
+        - Include viewport meta tag for responsiveness
+        - Create a navigation menu at the top with links to each section
         
-        Here's the content to format:
+        2. CSS Requirements (include within <style> tag):
+        - Body: Light background 
+        - Text: Use system fonts, line height 1.6
+        - Sections: White background, rounded corners, shadow
+        - Headers: Bold, slightly larger size, blue color
+        - Lists: Proper spacing, bullet styling
+        - Tables: Clean borders, alternating row colors
+        
+        3. Content Organization:
+        - Place user details in a prominent card at the top
+        - Create separate sections for each major category
+        - Use tables for parameter data
+        - Format lists with proper indentation
+        - Add appropriate spacing between sections
+        
+        4. Specific Sections to Include:
+        - Title and Patient Information
+        - Emotional and Cognitive Parameters
+        - Analysis Section
+        - Recommendations
+        - Therapy Suggestions
+        - Activities and Management
+        - Disclaimer
+        
+        Here's the content to format into this structure:
         
         {content}
         
-        Provide only the complete HTML code without any explanations or markdown.
+        Important: Generate only the complete HTML code with all styling included within a <style> tag in the head section. Make sure all sections are clearly separated and easy to read.
         """
         
-        response = model.generate_content(prompt)
+        response = model.generate_content(prompt.format(content=content))
         return response.text
     except Exception as e:
         print(f"Error generating HTML: {str(e)}")
@@ -77,20 +95,23 @@ def save_html(html_content, output_file):
 def main():
     # Setup
     input_file = "geminioutput.txt"
-    output_file = "generated_report.html"
+    output_file = "mental_health_report.html"
     
+    # Read input content
     content = read_file(input_file)
     if not content:
         return
+
+    # Setup Gemini model
     model = setup_gemini()
     if not model:
         return
 
+    # Generate and save HTML
     html_content = generate_html_with_gemini(model, content)
     if not html_content:
         return
     
- 
     save_html(html_content, output_file)
 
 if __name__ == "__main__":
