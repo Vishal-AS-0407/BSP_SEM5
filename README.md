@@ -23,7 +23,7 @@ The system offers a holistic view of a person's health, enabling them to make in
 
 ![Health Report Output 1](Screenshot%202024-11-12%20015438.png)
 ![Health Report Output 2](Screenshot%202024-11-12%20015455.png)
-![Health Report Output 3](Screenshot%202024-11-12%2001530.png)
+![Health Report Output 3](Screenshot%202024-11-12%015530.png)
 
 
 ## Datasets Used
