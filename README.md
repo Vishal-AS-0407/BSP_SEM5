@@ -20,7 +20,7 @@ By correlating multiple EEG signals, the system can identify potential health ri
 - Consultation with a healthcare provider
 
 The system offers a holistic view of a person's health, enabling them to make informed decisions for a healthier lifestyle.
-![Health Report Output](output.png)
+![Health Report Output](output.jpg)
 
 ## Datasets Used
 
